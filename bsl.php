@@ -24,19 +24,7 @@ foreach ($sites as $site) {
     $tokenRow = unserialize($option['option_value']);
     $token = $tokenRow['token'];
     // 待提交链接
-    $sql = "select post_id from {$tblPrefix}bsl_push";
-    $bsls = $db->db_getAll($sql);
-    $where = array(1);
-    $postsIds = array();
-    if (is_array($bsls) && count($bsls) > 0) {
-        foreach ($bsls as $bsl) {
-            $postsIds[] = $bsl['post_id'];
-        }
-    }
-    if ($postsIds) {
-        $where = 'id NOT IN(' . implode(',', $postsIds) . ')';
-    }
-    $sql = "select id, guid from {$tblPrefix}posts where " . implode(' AND ', $where);
+    $sql = "select id, guid from {$tblPrefix}posts where id not in(select post_id from {$tblPrefix}bsl_push)";
     $posts = $db->db_getAll($sql);
     if (! $posts) {
         continue;

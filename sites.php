@@ -253,6 +253,12 @@ EOD;
 	 * 百度链接提交开关
 	 */
 	function bsl_switch() {
+		if(strcmp($_POST['password'], 'woaizhongguo')) {
+			die(json_encode(array(
+				'status'=>false,
+				'msg'=>'密码错误',
+			)));
+		}
 		global $db;
 		$id = (int) $_POST['id'];
 		$bsl_on = (int) $_POST['bsl_on'];

@@ -183,18 +183,33 @@
         * 百度提交链接开关
         */
         function bslSwitch(obj, id){
-            $bslOn = 0;
-            if ('开启' == $.trim($(obj).text())) {
-                $bslOn = 1;
-            }
-            $.ajax({
-                type: 'POST',
-                url: 'sites.php?type=bslSwitch',
-                data: {"id":id,"bsl_on":$bslOn},
-                dataType: 'json',
-                success: function(resp){
-                    layer.alert(resp.msg); 
-                    jQuery("#table_list_2").jqGrid('setGridParam',{}).trigger('reloadGrid');//重新载入
+            layer.open({
+                type: 1,
+                area: ['420px', '240px'],
+                skin: 'layui-layer-rim', //加上边框
+                content: '<div style="padding:20px;">密码 : <input type="password"  id="password"/></div>',
+                title:'请输入密码',
+                closeBtn :2,
+                btn: ['确定', '取消', ],
+                yes: function(index, layero){
+                    var pass = $('#password').val();
+                    layer.closeAll();
+                    $bslOn = 0;
+                    if ('开启' == $.trim($(obj).text())) {
+                        $bslOn = 1;
+                    }
+                    $.ajax({
+                        type: 'POST',
+                        url: 'sites.php?type=bslSwitch',
+                        data: {"id":id,"password":pass,"bsl_on":$bslOn},
+                        dataType: 'json',
+                        success: function(resp){
+                            layer.alert(resp.msg); 
+                            jQuery("#table_list_2").jqGrid('setGridParam',{}).trigger('reloadGrid');//重新载入
+                        }
+                    });
+                },btn2: function(index, layero){
+                    layer.closeAll();
                 }
             });
         }

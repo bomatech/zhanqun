@@ -2045,3 +2045,6 @@ UNLOCK TABLES;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2018-05-08 17:56:59
+
+-- 百度链接提交开关
+ALTER TABLE `wp_sites` ADD `bsl_on` TINYINT NOT NULL DEFAULT '0' COMMENT '百度链接提交开关' AFTER `template`;

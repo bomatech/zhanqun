@@ -179,6 +179,25 @@
             })
         }
 
+        /**
+        * 百度提交链接开关
+        */
+        function bslSwitch(obj, id){
+            $bslOn = 0;
+            if ('开启' == $.trim($(obj).text())) {
+                $bslOn = 1;
+            }
+            $.ajax({
+                type: 'POST',
+                url: 'sites.php?type=bslSwitch',
+                data: {"id":id,"bsl_on":$bslOn},
+                dataType: 'json',
+                success: function(resp){
+                    layer.alert(resp.msg); 
+                    jQuery("#table_list_2").jqGrid('setGridParam',{}).trigger('reloadGrid');//重新载入
+                }
+            });
+        }
 
     </script>
 

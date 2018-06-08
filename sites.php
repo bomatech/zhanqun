@@ -67,7 +67,15 @@
 		$ar = $db->db_getAll('SELECT * FROM wp_sites');
 		if(!$ar) $ar = array();
 		foreach ($ar as  &$value) {
-			$value['op'] = "<a href='http://{$value['domain']}/wp-admin/' target='_blank'>后台登陆</a>&nbsp;&nbsp;&nbsp;<a href='javascript:;' onclick='delDomain({$value['id']})'>删除</a>";
+			if ($value['bsl_on']) {
+				$bsl_html = "<a href='javascript:;' onclick='bslSwitch(this, {$value['id']})'>关闭</a>";
+			} else {
+				$bsl_html = "<a href='javascript:;' onclick='bslSwitch(this, {$value['id']})'>开启</a>";
+			}
+			$value['op'] = <<<EOD
+<a href='http://{$value['domain']}/wp-admin/' target='_blank'>后台登陆</a>&nbsp;&nbsp;&nbsp;<a 
+href='javascript:;' onclick='delDomain({$value['id']})'>删除</a>&nbsp;&nbsp;&nbsp;{$bsl_html}
+EOD;
 		}
 		$data['total'] = 1;
 		$data['records'] = count($ar);
@@ -241,19 +249,43 @@
 		file_put_contents('zhandian.sh',$content);
 	}
 
-
-
+	/**
+	 * 百度链接提交开关
+	 */
+	function bsl_switch() {
+		global $db;
+		$id = (int) $_POST['id'];
+		$bsl_on = (int) $_POST['bsl_on'];
+		if(! in_array($bsl_on, array(0, 1))) {
+			$bsl_on = 0;
+		}
+		$sql = "update wp_sites SET bsl_on = {$bsl_on} WHERE id = {$id}";
+		$result = $db->db_query($sql);
+		if ($result) {
+			die(json_encode(array(
+				'status' => true,
+				'msg' => '更新成功',
+			)));
+		} else {
+			die(json_encode(array(
+				'status' => false,
+				'msg' => '更新失败',
+			)));
+		}
+	}
 
 	$type = $_GET['type'];
 
 	if($type == 'get'){
 		get_data($db);
-	}elseif($type='eidt'){
+	}elseif($type=='eidt'){
 		if($_POST['oper']=='del'){
 			del_data($db);
 		}elseif($_POST['oper']=='add'){
 			add_data($db);
 		}
+	}elseif('bslSwitch' == $type) {
+		bsl_switch();
 	}
 
 

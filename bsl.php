@@ -1,4 +1,5 @@
 <?php
+ini_set('display_errors', 'Off');
 /**
  * 百度链接提交脚本
  */

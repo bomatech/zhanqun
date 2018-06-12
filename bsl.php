@@ -25,7 +25,7 @@ foreach ($sites as $site) {
     $tokenRow = unserialize($option['option_value']);
     $token = $tokenRow['token'];
     // 待提交链接
-    $sql = "select id, guid from {$tblPrefix}posts where id not in(select post_id from {$tblPrefix}bsl_push)";
+    $sql = "select id, guid from {$tblPrefix}posts where id not in(select post_id from {$tblPrefix}bsl_push) and post_status = 'publish'";
     $posts = $db->db_getAll($sql);
     if (! $posts) {
         continue;

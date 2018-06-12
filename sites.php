@@ -284,7 +284,7 @@ EOD;
 
 	if($type == 'get'){
 		get_data($db);
-	}elseif($type=='eidt'){
+	}elseif($type=='edit'){
 		if($_POST['oper']=='del'){
 			del_data($db);
 		}elseif($_POST['oper']=='add'){

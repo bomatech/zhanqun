@@ -1,9 +1,10 @@
 <?php
+ini_set('error_reporting', 0);
 ini_set('display_errors', 'Off');
 /**
  * 百度链接提交脚本
  */
-include './db.php';
+include 'db.php';
 
 $db = new DB();
 $sql = 'SELECT * from wp_sites WHERE bsl_on -- limit 1';

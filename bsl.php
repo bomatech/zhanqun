@@ -71,5 +71,5 @@ foreach ($sites as $site) {
         $sqlt = $sql . implode(',', $values);
         $db->db_query($sqlt);
     }
-    echo "执行完毕。\n";
 }
+echo "执行完毕。\n";
